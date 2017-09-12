@@ -87,9 +87,11 @@ function showLogoText(tl) {
       '-=.75'
     );
 }
-function drawLines(tl, dots, lines) {
+function drawLines(tl, startingAt = 'logoScene+=.25', n = 0) {
+  const dots = getDots();
+  const lines = getLines(dots);
   const dotNodes = dots.map(dot => dot.node);
-  tl.add('lineScene', 'logoScene+=.25');
+  tl.add(`lineScene${n}`, startingAt);
   tl.staggerTo(
     dotNodes,
     0.1,
@@ -98,7 +100,7 @@ function drawLines(tl, dots, lines) {
       ease: Linear.ease
     },
     0.2,
-    'lineScene'
+    `lineScene${n}`
   );
   tl.staggerFromTo(
     lines,
@@ -111,10 +113,10 @@ function drawLines(tl, dots, lines) {
       ease: Linear.ease
     },
     0.2,
-    'lineScene+=0.1'
+    `lineScene${n}+=0.1`
   );
 
-  tl.add('lineSceneEnd', '+=.5');
+  tl.add(`lineSceneEnd${n}`, '+=.5');
   tl.to(
     lines,
     0.7,
@@ -122,16 +124,17 @@ function drawLines(tl, dots, lines) {
       opacity: 0,
       ease: Linear.ease
     },
-    'lineSceneEnd'
+    `lineSceneEnd${n}`
   );
   tl.to(
     dotNodes,
     0.7,
     {
       fill: '#FFFFFF',
-      ease: Linear.ease
+      ease: Linear.ease,
+      onComplete: () => drawLines(tl, '+=2')
     },
-    'lineSceneEnd'
+    `lineSceneEnd${n}`
   );
 }
 
@@ -171,123 +174,14 @@ function createFullPath(path) {
   return allCoords;
 }
 
-// const paths = [
-//   [
-//     [-3, 3],
-//     [-2, 3],
-//     [-1, 3],
-//     [0, 3],
-//     [1, 2],
-//     [2, 1],
-//     [2, 0],
-//     [2, -1],
-//     [2, -2],
-//     [1, -2]
-//   ],
-//   [
-//     [0, 0],
-//     [0, 1],
-//     [0, 2],
-//     [-1, 2],
-//     [-2, 2],
-//     [-3, 2],
-//     [-4, 2],
-//     [-4, 1],
-//     [-4, 0],
-//     [-3, -1]
-//   ],
-//   [
-//     [3, -2],
-//     [3, -3],
-//     [2, -3],
-//     [1, -3],
-//     [0, -3],
-//     [-1, -2],
-//     [-2, -1],
-//     [-3, 0],
-//     [-3, 1],
-//     [-3, 2]
-//   ],
-//   [
-//     [0, -5],
-//     [-1, -4],
-//     [-2, -3],
-//     [-1, -3],
-//     [0, -3],
-//     [1, -3],
-//     [2, -3],
-//     [3, -3],
-//     [3, -2],
-//     [3, -1]
-//   ],
-//   [
-//     [5, -5],
-//     [4, -5],
-//     [3, -5],
-//     [2, -4],
-//     [1, -3],
-//     [0, -2],
-//     [-1, -1],
-//     [-2, 0],
-//     [-2, 1],
-//     [-2, 2]
-//   ],
-//   [
-//     [0, -4],
-//     [-1, -3],
-//     [-2, -2],
-//     [-1, -2],
-//     [0, -2],
-//     [1, -2],
-//     [2, -2],
-//     [2, -1],
-//     [2, 0],
-//     [2, 1]
-//   ],
-//   [
-//     [-4, 3],
-//     [-3, 3],
-//     [-2, 3],
-//     [-2, 2],
-//     [-2, 1],
-//     [-2, 0],
-//     [-1, -1],
-//     [0, -2],
-//     [1, -3],
-//     [2, -4]
-//   ]
-// ].map(createFullPath);
-
 const paths = [
   [[-3, 3], [0, 3], [1, 2], [2, 1], [2, -2], [1, -2]],
   [[0, 0], [0, 2], [-4, 2], [-4, 0], [-3, -1]],
   [[3, -2], [3, -3], [0, -3], [-3, 0], [-3, 2]],
   [[0, -5], [-2, -3], [-1, -3], [3, -3], [3, -1]],
   [[5, -5], [3, -5], [-2, 0], [-2, 2]],
-  [
-    [0, -4],
-    [-1, -3],
-    [-2, -2],
-    [-1, -2],
-    [0, -2],
-    [1, -2],
-    [2, -2],
-    [2, -1],
-    [2, 0],
-    [2, 1]
-  ],
-  [
-    [-4, 3],
-    [-3, 3],
-    [-2, 3],
-    [-2, 2],
-    [-2, 1],
-    [-2, 0],
-    [-1, -1],
-    [0, -2],
-    [1, -3],
-    [2, -4]
-  ]
+  [[0, -4], [-2, -2], [2, -2], [2, 1]],
+  [[-4, 3], [-2, 3], [-2, 0], [2, -4]]
 ].map(createFullPath);
 
 function getDots() {
@@ -298,6 +192,8 @@ function getDots() {
 function getLines(dots) {
   const lines = [];
   const lineGroup = document.getElementById('lines');
+
+  lineGroup.innerHTML = '';
 
   for (let i = 1; i < dots.length; i++) {
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -319,12 +215,10 @@ function getLines(dots) {
 }
 
 const tl = new TimelineMax();
-const dots = getDots();
-const lines = getLines(dots);
 
 moveDotsFromRandomPos(tl);
 showLogoText(tl);
-drawLines(tl, dots, lines);
+drawLines(tl);
 
-tl.play('lineScene');
+// tl.play('lineScene');
 // tl.play('logoScene');
