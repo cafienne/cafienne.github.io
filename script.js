@@ -45,10 +45,8 @@ function moveDotsFromRandomPos(tl) {
 
   dotsGroup.style.display = 'block';
 
-  for (const dot of dots) {
+  for (const dot of Array.from(dots)) {
     const [, x, y] = dot.id.split('_');
-
-    console.log(x, y);
 
     tl.fromTo(
       dot,
