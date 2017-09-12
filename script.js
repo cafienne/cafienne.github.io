@@ -90,6 +90,14 @@ function drawLines(tl, startingAt = 'logoScene+=.25', n = 0) {
   const lines = getLines(dots);
   const dotNodes = dots.map(dot => dot.node);
   tl.add(`lineScene${n}`, startingAt);
+
+  tl.to(
+    '#dots-and-lines',
+    0,
+    { scaleX: Math.random() < 0.5 ? -1 : 1, transformOrigin: 'center center' },
+    `lineScene${n}`
+  );
+
   tl.staggerTo(
     dotNodes,
     0.1,
