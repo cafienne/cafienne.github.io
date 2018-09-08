@@ -14,10 +14,6 @@
                 var toggler = document.querySelector(togglerSelector);
                 var target = document.querySelector(targetSelector);
 
-                if (!toggler) {
-                  return;
-                }
-
                 toggler.onclick = function(event) {
                   event.preventDefault();
 
@@ -26,7 +22,7 @@
               }
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Users, roles and case team</h1></header><article><div><span><p>Using <code>post/users</code> you can add a user. The body of this call should look like:</p>
-<pre><code class="hljs css language-ssh">{ 
+<pre><code class="hljs css languages- ssh">{ 
   <span class="hljs-attr">"username"</span>: <span class="hljs-string">"string"</span>,
   <span class="hljs-attr">"password"</span>: <span class="hljs-string">"string"</span>,
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"string"</span>,

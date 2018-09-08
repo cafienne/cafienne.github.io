@@ -14,10 +14,6 @@
                 var toggler = document.querySelector(togglerSelector);
                 var target = document.querySelector(targetSelector);
 
-                if (!toggler) {
-                  return;
-                }
-
                 toggler.onclick = function(event) {
                   event.preventDefault();
 
@@ -32,7 +28,7 @@
 <p><strong>In CMMN</strong>, Case File Items are used to represent all kinds of data, including a data value in a database, a row in a database, a document, a spreadsheet, a picture, a video, a voice recording, etc. Case File is meant as logical model. It does not imply any assumptions about physical storage of information. A Case File Item must have a Case File Item Definition that defines the structure, as well as the “language” (or format) to define the structure. This may include the definitions of Properties (“metadata”) of a Case File Item. In CMMN, Case File Item Properties have a name and a type.</p>
 <p><strong>In Cafienne</strong>, you explicitly can use a Case File Item, its Definition and its Properties to design a JSON object structure. In the Case File Item Section, you choose as Definition Type “Unspecified”. Then you are allowed to add Properties, being a name and a “datatype”. These properties are then not “metadata” but “attributes” of the Case File Item that by this definition is an “objct”.</p>
 <p><strong>In Cafienne</strong> you can use these properties to store values. The JSON structure looks like</p>
-<pre><code class="hljs css language-sh">{
+<pre><code class="hljs css languages- sh">{
  <span class="hljs-string">"object"</span>: <span class="hljs-string">"..."</span>, --the <span class="hljs-keyword">case</span> file item
  <span class="hljs-string">"properties"</span>: {
    <span class="hljs-string">"..."</span>: <span class="hljs-string">"..."</span>,
